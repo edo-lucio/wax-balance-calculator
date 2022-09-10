@@ -12,7 +12,6 @@ Then install it through
 
 ```
 npm i
-
 ```
 
 ## Configuration and Use
