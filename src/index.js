@@ -1,25 +1,25 @@
-const { Wallet } = require("wax-bot-lib");
-const { Miner } = require("./libs/classes/miner");
-const { config } = require("../config");
+const { getStillBalances } = require("./get_still_balances");
+const { getPrice } = require("./get_price");
 
-const workers = JSON.parse(config.WORKERS);
-const payer = JSON.parse(config.PAYER);
-const serverEndpoint = config.SERVER_ENDPOINT;
+/* eslint-disable require-jsdoc */
+async function calculateStillBalances(walletAddress) {
+    const stillBalances = await getStillBalances(walletAddress);
 
-console.log(workers);
-
-const main = async () => {
+    let waxTotal = 0;
     const promises = [];
 
-    for (let i = 0; i < workers.length; i++) {
-        const wallet = new Wallet(serverEndpoint, workers[i].wallet, payer);
-        wallet.init();
-
-        const miner = new Miner(wallet, workers[i].look_up);
-        promises.push(miner.work());
+    for (let i = 0; i < stillBalances.length; i++) {
+        console.log(stillBalances[i].currency);
+        promises.push(getPrice(stillBalances[i].currency));
     }
 
-    await Promise.all(promises);
-};
+    const prices = await Promise.all(promises);
+    console.log(prices);
 
-main();
+    // const waxConversion = price * parseFloat(stillBalances[i].amount);
+    // waxTotal += waxConversion;
+
+    return waxTotal;
+}
+
+calculateStillBalances("badpollastro");
