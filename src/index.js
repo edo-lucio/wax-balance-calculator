@@ -6,23 +6,13 @@ const { config } = require("../config");
 
 /* eslint-disable require-jsdoc */
 async function main(walletAddress) {
-    console.time("balance");
-    // const stillBalance = await getStillBalance(walletAddress);
-    // const liveOrders = await getLiveBalance(walletAddress);
+    const stillBalance = await getStillBalance(walletAddress);
+    const liveOrders = await getLiveBalance(walletAddress);
 
-    const promises = [
-        getStillBalance(walletAddress),
-        getLiveBalance(walletAddress),
-    ];
-    const promise = await Promise.all(promises);
+    const balance = stillBalance + liveOrders;
+    console.log(balance);
 
-    console.log(promise);
-
-    // const balance = stillBalance + liveOrders;
-    // console.log(balance);
-    console.timeEnd("balance");
-
-    // return balance;
+    return balance;
 }
 
 main(config.address);
