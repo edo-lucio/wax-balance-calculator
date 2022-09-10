@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
-const { getStillBalance } = require("./get_still_balance");
-const { getLiveBalance } = require("./get_live_balances");
+const { getStillBalance } = require("./StillBalances/get_still_balance");
+const { getLiveBalance } = require("./LiveBalances/get_live_balances");
 
 const { config } = require("../config");
 

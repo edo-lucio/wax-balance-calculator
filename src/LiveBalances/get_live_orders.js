@@ -1,6 +1,6 @@
 /* eslint-disable require-jsdoc */
 const { RpcWrapper } = require("wax-bot-lib");
-const { config } = require("../config");
+const { config } = require("../../config");
 
 const rpc = new RpcWrapper(config.SERVER_ENDPOINT);
 
