@@ -2,15 +2,27 @@
 const { getStillBalance } = require("./get_still_balance");
 const { getLiveBalance } = require("./get_live_balances");
 
+const { config } = require("../config");
+
 /* eslint-disable require-jsdoc */
-async function calculateStillBalances(walletAddress) {
-    const stillBalance = await getStillBalance(walletAddress);
-    const liveOrders = await getLiveBalance(walletAddress);
+async function main(walletAddress) {
+    console.time("balance");
+    // const stillBalance = await getStillBalance(walletAddress);
+    // const liveOrders = await getLiveBalance(walletAddress);
 
-    const balance = stillBalance + liveOrders;
-    console.log(balance);
+    const promises = [
+        getStillBalance(walletAddress),
+        getLiveBalance(walletAddress),
+    ];
+    const promise = await Promise.all(promises);
 
-    return balance;
+    console.log(promise);
+
+    // const balance = stillBalance + liveOrders;
+    // console.log(balance);
+    console.timeEnd("balance");
+
+    // return balance;
 }
 
-calculateStillBalances("marcantonio4");
+main(config.address);

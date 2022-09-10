@@ -6,10 +6,12 @@ const { sumBids } = require("./calculateSum");
 async function getLiveBalance(address) {
     const liveOrders = await getLiveOrders(address);
 
+    let sum = 0;
+
+    if (!liveOrders) return sum;
+
     const buys = liveOrders.buyorders;
     const sales = liveOrders.sellorders;
-
-    let sum = 0;
 
     for (let i = 0; i < buys.length; i++) {
         const orderbook = await fetchOrderBook(buys[i].key, "buy");

@@ -14,8 +14,6 @@ async function getStillBalance(walletAddress) {
         }
 
         const waxPrice = await getMarketData(holdedTokens[i].currency) || 0;
-        console.log(holdedTokens[i].amount)
-        
         stillBalance += holdedTokens[i].amount * waxPrice;
     }
 

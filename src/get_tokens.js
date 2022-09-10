@@ -8,6 +8,5 @@ async function getTokens(walletAddress) {
     return balances.data.balances;
 }
 
-getTokens("badpollastro");
 
 module.exports = { getTokens };
