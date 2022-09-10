@@ -1,25 +1,16 @@
-const { getStillBalances } = require("./get_still_balances");
-const { getPrice } = require("./get_price");
+/* eslint-disable camelcase */
+const { getStillBalance } = require("./get_still_balance");
+const { getLiveBalance } = require("./get_live_balances");
 
 /* eslint-disable require-jsdoc */
 async function calculateStillBalances(walletAddress) {
-    const stillBalances = await getStillBalances(walletAddress);
+    const stillBalance = await getStillBalance(walletAddress);
+    const liveOrders = await getLiveBalance(walletAddress);
 
-    let waxTotal = 0;
-    const promises = [];
+    const balance = stillBalance + liveOrders;
+    console.log(balance);
 
-    for (let i = 0; i < stillBalances.length; i++) {
-        console.log(stillBalances[i].currency);
-        promises.push(getPrice(stillBalances[i].currency));
-    }
-
-    const prices = await Promise.all(promises);
-    console.log(prices);
-
-    // const waxConversion = price * parseFloat(stillBalances[i].amount);
-    // waxTotal += waxConversion;
-
-    return waxTotal;
+    return balance;
 }
 
-calculateStillBalances("badpollastro");
+calculateStillBalances("marcantonio4");

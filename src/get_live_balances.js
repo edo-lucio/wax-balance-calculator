@@ -1,22 +1,29 @@
+const { getLiveOrders } = require("./get_live_orders");
+const { fetchOrderBook } = require("./fetch_orderbook");
+const { sumBids } = require("./calculateSum");
+
 /* eslint-disable require-jsdoc */
-const { RpcWrapper } = require("wax-bot-lib");
-const { config } = require("../config");
+async function getLiveBalance(address) {
+    const liveOrders = await getLiveOrders(address);
 
-const rpc = new RpcWrapper(config.SERVER_ENDPOINT);
+    const buys = liveOrders.buyorders;
+    const sales = liveOrders.sellorders;
 
-async function getLiveOrders(walletAddress) {
-    const orders = await rpc.fetchTable({
-        code: "alcordexmain",
-        scope: "alcordexmain",
-        table: "account",
-        lower_bound: walletAddress,
-        upper_bound: walletAddress,
-        limit: 1000,
-    });
+    let sum = 0;
 
-    return orders.rows[0];
+    for (let i = 0; i < buys.length; i++) {
+        const orderbook = await fetchOrderBook(buys[i].key, "buy");
+        sum += sumBids(address, orderbook, "buy");
+    }
+
+    for (let i = 0; i < sales.length; i++) {
+        const orderbook = await fetchOrderBook(sales[i].key, "sell");
+        sum += sumBids(address, orderbook, "sell");
+    }
+
+    console.log("live", sum);
+
+    return sum;
 }
 
-getLiveOrders("badpollastro");
-
-module.exports = { getLiveOrders };
+module.exports = { getLiveBalance };
