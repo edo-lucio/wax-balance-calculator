@@ -8,11 +8,12 @@ If requested, it would be possible to sum up WAX deposited into stakes, games an
 ## Installation
 Requires Node v16.0.0
 Clone the repo or download the zip file.
-Then install it through
+Then install by
 
 ```
 npm i
 ```
+
 
 ## Configuration and Use
 To configure it with your wallet, just go into the config.js file and put your wallet address into the `address` key.
