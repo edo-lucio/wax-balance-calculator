@@ -6,11 +6,20 @@ const { config } = require("../config");
 
 /* eslint-disable require-jsdoc */
 async function main(walletAddress) {
-    const stillBalance = await getStillBalance(walletAddress);
-    const liveOrders = await getLiveBalance(walletAddress);
+    console.time("o");
 
-    const balance = stillBalance + liveOrders;
+    const balances = await Promise.all([
+        getStillBalance(walletAddress),
+        getLiveBalance(walletAddress),
+    ]);
+
+    const balance = balances[0] + balances[1];
+
+    console.log("WAX holded", balances[0]);
+    console.log("WAX in Alcor orders", balances[1]);
     console.log(balance);
+
+    console.timeEnd("o");
 
     return balance;
 }

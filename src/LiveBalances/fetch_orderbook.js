@@ -9,7 +9,7 @@ async function fetchOrderBook(marketId, side) {
         code: "alcordexmain",
         scope: marketId,
         table: side + "order",
-        limit: 1000,
+        limit: 25,
         index_position: "secondary",
         key_type: "i128",
     });

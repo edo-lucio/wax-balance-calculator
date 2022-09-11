@@ -1,6 +1,7 @@
 const { getLiveOrders } = require("./get_live_orders");
 const { fetchOrderBook } = require("./fetch_orderbook");
 const { sumBids } = require("./calculateSum");
+const { getMarketData } = require("../get_market_data");
 
 /* eslint-disable require-jsdoc */
 async function getLiveBalance(address) {
@@ -20,10 +21,9 @@ async function getLiveBalance(address) {
 
     for (let i = 0; i < sales.length; i++) {
         const orderbook = await fetchOrderBook(sales[i].key, "sell");
-        sum += sumBids(address, orderbook, "sell");
+        const price = await getMarketData(sales[i].key);
+        sum += sumBids(address, orderbook, "sell", price);
     }
-
-    console.log("live", sum);
 
     return sum;
 }
