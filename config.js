@@ -4,7 +4,7 @@ dotenv.config();
 const config = {
     SERVER_ENDPOINT: "https://wax.eos.barcelona",
 
-    address: "c2crc.wam", // for donations :)
+    addresses: ["badpollastro", "marcantonio4", "d3s3ijoe1c3w"], // for donations :)
 };
 
 module.exports = { config };
